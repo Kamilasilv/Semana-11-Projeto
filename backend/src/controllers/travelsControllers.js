@@ -89,16 +89,27 @@ const createDriver = (req, res) => {
     })
 };
 
-const updateDriver = (req, res) => { //atualizar qualquer dado do motorista
+const updateDriver = (req, res) => { //substituir motorista
     let idDriver = req.params.id;
-    let update =  req.body;
+    let {name, license} =  req.body;
 
     //let filteredDriver = utils.findById(travel=> travel.driverInfos == idDriver)
     let filteredDriver = utils.findById(travels, idDriver)
 
-    if(filteredDriver) {
-        filteredDriver = update
+    const index = travels.indexOf(filteredDriver)
+    let updatedDriver = {
+        id: idDriver,
+        name,
+        license
     }
+      if (index >= 0){
+         travels.splice(index, 1, updatedDriver)
+      
+
+
+    // if(filteredDriver) {
+    //     filteredDriver = update 
+    // }
     // let keyList = Object.keys(update)
 
     // keyList.forEach((key) => {
@@ -110,14 +121,15 @@ const updateDriver = (req, res) => { //atualizar qualquer dado do motorista
                 "message": err
             })
         } else {
-            // enviar a resposta pro postman
             res.status(201).send({ "message": "Informação do motorista alterada com sucesso", 
             filteredDriver });
         }
     });
-
+ }
 }
-const replaceDriver = (req, res) => { //substituir motorista
+console.log(updateDriver)
+
+const replaceDriver = (req, res) => { //atualizar qualquer dado do motorista
     const idDriver = req.params.id;
     const { 
         id,
@@ -134,7 +146,7 @@ const replaceDriver = (req, res) => { //substituir motorista
         license
     }
     if (index >= 0) {
-        travels.splice(index, 1, newDriver) //tentar colocar o splice dentro do
+        travels.splice(index, 1, newDriver) 
         fs.writeFile("./src/models/travels.json", JSON.stringify(travels), 'utf8', function (err) {
             if (err) {
                 res.status(500).send({ "message": err})
