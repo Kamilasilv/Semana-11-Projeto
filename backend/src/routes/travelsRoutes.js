@@ -16,9 +16,9 @@ router.delete("./travels/:id/delete", travelsController.deleteTravel) //deletar 
 
 router.post("/travels/:id/driverCreate", travelsController.createDriver); //Criar motorista em um viagem OK
 
-router.put("/travels/:id/updateDriver", travelsController.replaceDriver); // substituir motorista
+router.put("/travels/updateDriver/:id", travelsController.updateDriver); // substituir motorista
 
-router.patch("/travels/:id/update", travelsController.updateDriver); //atualizar qualquer dado
+router.patch("/travels/update/:id", travelsController.replaceDriver); //atualizar qualquer dado
 
 //DOS PASSAGEIROS
 
