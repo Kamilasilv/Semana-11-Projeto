@@ -5,6 +5,7 @@ const travelsController = require("../controllers/travelsControllers")
 const passengersController = require("../controllers/passengersControllers")
 
 //DAS VIAGENS
+
 router.get("/travels" , travelsController.getAllTravels); //OK
 router.get("/travels/capacity", travelsController.getAllTravelsOrder)
 router.get("/travels/:id" , travelsController.getTravelById); //OK 
@@ -13,7 +14,6 @@ router.post("/travels/:id/passenger/create" , travelsController.createPassenger)
 router.delete("./travels/:id/delete", travelsController.deleteTravel) //deletar uma viagem
 
 //DO MOTORISTA
-
 router.post("/travels/:id/driverCreate", travelsController.createDriver); //Criar motorista em um viagem OK
 
 router.put("/travels/updateDriver/:id", travelsController.updateDriver); // substituir motorista
