@@ -73,7 +73,8 @@ const createDriver = (req, res) => {
     travels.forEach((travels) => {
         let sameTravel = travels == filteredTravel
         if(sameTravel){
-            travels.driverInfos = newDriver
+            travels.driverInfos = []
+            travels.driverInfos.push(newDriver)
         }
     })
     fs.writeFile("./src/models/travels.json", JSON.stringify(travels), 'utf8', function(err){
@@ -127,40 +128,28 @@ const updateDriver = (req, res) => { //substituir motorista
     });
  }
 }
-console.log(updateDriver)
+//console.log(updateDriver)
 
 const replaceDriver = (req, res) => { //atualizar qualquer dado do motorista
     const idDriver = req.params.id;
-    const { 
-        id,
-        name,
-        license
-    } = req.body;
-
-    let filteredTravel = utils.findById(travels, idDriver)
-    const index = travels.indexOf(filteredTravel)
-
-    let newDriver = {    
-        id,
-        name,
-        license
-    }
-    if (index >= 0) {
-        travels.splice(index, 1, newDriver) 
+    const newId = req.body.id;
+    const newName = req.body.name;
+    const newLicense = req.body.license
+    
+    const  filteredTravel = utils.findById(travels, idDriver)
+    if (filteredTravel >= 0) {
+    filteredTravel.id = newId, filteredTravel.name = newName, filteredTravel.license = newLicense}
         fs.writeFile("./src/models/travels.json", JSON.stringify(travels), 'utf8', function (err) {
             if (err) {
                 res.status(500).send({ "message": err})
             }
             else{
                 res.status(200).send({
-                    "message": "Motorista substituido com sucesso.",
+                    "message": "Motorista atualizado com sucesso.",
                     filteredTravel
                 })
             }
         })
-    } else {
-        res.status(404).send({ "message": "Motorista não encontrado."})
-    }
 }
 
 const deleteTravel = (req, res) => { //deletar uma viagem 
