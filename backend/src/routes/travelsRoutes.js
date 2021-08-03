@@ -6,28 +6,28 @@ const passengersController = require("../controllers/passengersControllers")
 
 //DAS VIAGENS
 
-router.get("/travels" , travelsController.getAllTravels); //OK
+router.get("/travels" , travelsController.getAllTravels); 
 router.get("/travels/capacity", travelsController.getAllTravelsOrder)
-router.get("/travels/:id" , travelsController.getTravelById); //OK 
+router.get("/travels/:id" , travelsController.getTravelById);
 
-router.post("/travels/:id/passenger/create" , travelsController.createPassenger); //OK 
-router.delete("./travels/:id/delete", travelsController.deleteTravel) //deletar uma viagem
+router.post("/travels/:id/passenger/create" , travelsController.createPassenger); 
+router.delete("./travels/:id/delete", travelsController.deleteTravel) 
 
 //DO MOTORISTA
-router.post("/travels/:id/driverCreate", travelsController.createDriver); //Criar motorista em um viagem OK
+router.post("/travels/:id/driverCreate", travelsController.createDriver); 
 
-router.put("/travels/updateDriver/:id", travelsController.updateDriver); // substituir motorista
+router.put("/travels/updateDriver/:id", travelsController.updateDriver); 
 
-router.patch("/travels/update/:id", travelsController.replaceDriver); //atualizar qualquer dado
+router.patch("/travels/update/:id", travelsController.replaceDriver); 
 
 //DOS PASSAGEIROS
 
-router.get("/passengers", passengersController.getAllPassengers); //OK
+router.get("/passengers", passengersController.getAllPassengers); 
 
-router.delete("/passengers/:id", passengersController.deletePassenger); //OK
+router.delete("/passengers/:id", passengersController.deletePassenger); 
 
-router.put("/passengers/update/:id" , passengersController.replacePassenger); //OK
+router.put("/passengers/update/:id" , passengersController.replacePassenger); 
 
-router.patch("/passengers/updateName/:id" ,passengersController.updateName); //OK
+router.patch("/passengers/updateName/:id" ,passengersController.updateName); 
 
 module.exports = router
