@@ -92,64 +92,59 @@ const createDriver = (req, res) => {
 
 const updateDriver = (req, res) => { //substituir motorista
     let idDriver = req.params.id;
-    let {name, license} =  req.body;
+    let {id, name, license} =  req.body;
 
-    //let filteredDriver = utils.findById(travel=> travel.driverInfos == idDriver)
-    let filteredDriver = utils.findById(travels, idDriver)
+    let filteredDriver = utils.findById(travels, idDriver )
+    let driverIndex = travels.indexOf(filteredDriver)
 
-    const index = travels.indexOf(filteredDriver)
     let updatedDriver = {
-        id: idDriver,
+        id,
         name,
         license
     }
-      if (index >= 0){
-         travels.splice(index, 1, updatedDriver)
-      
-
-
-    // if(filteredDriver) {
-    //     filteredDriver = update 
-    // }
-    // let keyList = Object.keys(update)
-
-    // keyList.forEach((key) => {
-    //     filteredDriver[key] = update[key]
-    // })
+      if ( driverIndex >= 0){
+         travels.splice(driverIndex, 1, updatedDriver)
+    
     fs.writeFile("./src/models/travels.json", JSON.stringify(travels), 'utf8', function(err) {
         if (err) {
             res.status(500).send({
                 "message": err
             })
         } else {
-            res.status(201).send({ "message": "Informação do motorista alterada com sucesso", 
+            res.status(201).send({ "message": "Motorista substituido com sucesso", 
             filteredDriver });
         }
     });
+ } else{
+     res.status(404).send({  "message": "Motorista não encontrado para ser substituido"})
  }
 }
-//console.log(updateDriver)
 
 const replaceDriver = (req, res) => { //atualizar qualquer dado do motorista
-    const idDriver = req.params.id;
-    const newId = req.body.id;
-    const newName = req.body.name;
-    const newLicense = req.body.license
-    
-    const  filteredTravel = utils.findById(travels, idDriver)
-    if (filteredTravel >= 0) {
-    filteredTravel.id = newId, filteredTravel.name = newName, filteredTravel.license = newLicense}
+    let idDriver = req.params.id;
+    let updatedDriver = req.body;
+
+    let driverFound = travels.find(travels => travels.driverInfos.id == idDriver)
+    let driverIndex = travels.indexOf(driverFound)
+    driverFound.driverInfos = updatedDriver 
+    if(driverIndex >=0 ) {
+        travels.splice(driverIndex, 1, driverFound)
+        
         fs.writeFile("./src/models/travels.json", JSON.stringify(travels), 'utf8', function (err) {
             if (err) {
                 res.status(500).send({ "message": err})
             }
             else{
-                res.status(200).send({
+                const driverUpdated = travels.find(travels => travels.driverInfos.id == idDriver)
+                res.status(200).send({ 
                     "message": "Motorista atualizado com sucesso.",
-                    filteredTravel
+                    driverUpdated
                 })
             }
         })
+    } else {
+        res.status(404).send ({ "message": "Motorista não encontrado para ser atualizado."})
+    }
 }
 
 const deleteTravel = (req, res) => { //deletar uma viagem 
